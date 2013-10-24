@@ -107,7 +107,7 @@ if (!class_exists('ReduxFramework_slides')) {
 
                         echo '<div class="redux_slides_add_remove">';
 
-                        echo '<span class="button media_upload_button" id="add_slide_' . $x . '">' . __('Upload', 'redux-framework') . '</span>';
+                        echo '<span class="button media_upload_button_slide" id="add_slide_' . $x . '">' . __('Upload', 'redux-framework') . '</span>';
 
                         $hide = '';
                         if (empty($slide['slide_image_url']) || $slide['slide_image_url'] == '')
@@ -148,7 +148,7 @@ if (!class_exists('ReduxFramework_slides')) {
                 echo '<div class="upload_button_div">';
 
                 //If the user has WP3.5+ show upload/remove button
-                echo '<span class="button media_upload_button" id="add_slide_' . $x . '">' . __('Upload', 'redux-framework') . '</span>';
+                echo '<span class="button media_upload_button_slide" id="add_slide_' . $x . '">' . __('Upload', 'redux-framework') . '</span>';
 
                 echo '<span class="button remove-image' . $hide . '" id="reset_slide_' . $x . '" rel="' . $this->args['opt_name'] . '[' . $this->field['id'] . '][slide_image_id]">' . __('Remove', 'redux-framework') . '</span>';
 
@@ -167,7 +167,7 @@ if (!class_exists('ReduxFramework_slides')) {
                 echo '</ul></div></div>';
             }
             echo '</div><a href="javascript:void(0);" class="button redux-slides-add button-primary" rel-id="' . $this->field['id'] . '-ul" rel-name="' . $this->args['opt_name'] . '[' . $this->field['id'] . '][slide_title][]">' . __('Add Slide', 'redux-framework') . '</a><br/>';
-            echo (isset($this->field['desc']) && !empty($this->field['desc'])) ? '<div class="description">' . $this->field['desc'] . '</div>' : '';
+            
         }
 
         /**
@@ -180,8 +180,23 @@ if (!class_exists('ReduxFramework_slides')) {
          * @return      void
          */
 
-        public function enqueue()
-        {
+        public function enqueue() {
+
+
+            wp_enqueue_script(
+                'redux-field-media-js',
+                REDUX_URL . 'inc/fields/media/field_media.js',
+                array( 'jquery', 'wp-color-picker' ),
+                time(),
+                true
+            );
+
+            wp_enqueue_style(
+                'redux-field-media-css',
+                REDUX_URL . 'inc/fields/media/field_media.css',
+                time(),
+                true
+            );            
 
             wp_enqueue_script(
                 'redux-field-slides-js',

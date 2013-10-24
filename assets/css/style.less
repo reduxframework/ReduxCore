@@ -283,9 +283,11 @@ border: 1px solid #e5e5e5;
 #redux-sidebar #redux-group-menu li a img{
 	width: 16px;
 	height: 16px;
-	/*vertical-align:middle;*/
+	/*vertical-align:middle;
 	margin-bottom:-3px;
-	margin-right: 3px;
+	margin-right: 3px;*/
+	position: absolute;
+	left: 15px;
 }
 #redux-sidebar #redux-group-menu li.active a:hover{
 	color: #269ad6;
@@ -625,6 +627,7 @@ border: 1px solid #e5e5e5;
 #redux-main input, #redux-main select, #redux-main .sortlist_homepage_blocks, #redux-main textarea, .wp-picker-container, .switch-options {
 	margin-bottom: 7px;
 }
+#redux-main textarea.wp-editor-area {margin-bottom: 0;}
 #redux-main label input {
 	margin-bottom: 0;
 }
@@ -732,7 +735,7 @@ label.radio, label.multicheck {
 	width:95px;
 	float:left
 }
-#redux-main .group {
+/*#redux-main .group {
 	display:none;
 	padding-bottom:20px;
 }
@@ -742,7 +745,7 @@ label.radio, label.multicheck {
 }
 #redux-main input:focus, #redux-main select:focus, #redux-main textarea:focus {
 	background:#fff;
-}
+}*/
 
 
 #redux-main .hide {
@@ -768,7 +771,7 @@ label.radio, label.multicheck {
 /* Tipsy
 /*-------------------------------------------------------------------------------------------*/
 .tipsy { font-size: 10px; position: absolute; padding: 5px; z-index: 100000; }
-  .tipsy-inner { background-color: #000; color: #FFF; max-width: 200px; padding: 5px 8px 4px 8px; text-align: center; }
+  .tipsy-inner { background-color: #000; color: #FFF; max-width: 200px; padding: 5px 5px 1px 5px; text-align: center; }
 
   /* Rounded corners */
   .tipsy-inner { border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; }
@@ -876,7 +879,13 @@ label.radio, label.multicheck {
 	margin-top: 0;
 }
 
+img {
+	max-width:100%; 
+	max-height:100%;
+}
+
 .showDefaults {
+	display: block;
 	font-weight: normal;
 	font-size: .8em;
 	color: #888;
@@ -885,7 +894,7 @@ label.radio, label.multicheck {
 	width: auto !important;
 }
 
-@media screen and (max-width : 900px) {
+@media screen and (max-width : 1124px) {
 	#redux-sidebar{
 		width:42px;
 	}
@@ -934,8 +943,11 @@ label.radio, label.multicheck {
 	.form-table > tbody > tr > th, .form-table > tbody > tr > td{
 		padding: 10px !important;
 	}
-	.form-table > tbody > tr > td span.description{
-		display: block;
+	.form-table > tbody > tr > th, .form-table > tbody > tr > td{
+		padding: 10px !important;
+	}
+	.form-table > tbody > tr > th {
+		min-width: 35%
 	}
 }
 
@@ -963,4 +975,8 @@ label.radio, label.multicheck {
 }
 #redux-main #redux-system-info textarea {
 	min-height: 730px;
+}
+
+#redux-main .field-desc {
+	clear: both;
 }

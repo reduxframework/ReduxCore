@@ -3,13 +3,13 @@
 jQuery(document).ready(function() {
 
 	// On label click, change the input and class
-	jQuery('.redux-image-select label').click(function(e) {
-		var id = jQuery(this).attr('for');
+	jQuery('.redux-image-select label img, .redux-image-select label .tiles').click(function(e) {
+		var id = jQuery(this).closest('label').attr('for');
 		jQuery(this).parents("td:first").find('.redux-image-select-selected').removeClass('redux-image-select-selected');
-		jQuery(this).find('input[type="radio"]').prop('checked');
-		if (jQuery(this).hasClass('redux-image-select-presets')) { // If they clicked on a preset, import!
+		jQuery(this).closest('label').find('input[type="radio"]').prop('checked');
+		if (jQuery(this).closest('label').hasClass('redux-image-select-presets')) { // If they clicked on a preset, import!
 			e.preventDefault();
-			var presets = jQuery(this).find('input');
+			var presets = jQuery(this).closest('label').find('input');
 			var data = presets.data('presets');
 			if (presets !== undefined && presets !== null) {
 				var answer = confirm(redux_opts.preset_confirm);
@@ -22,14 +22,23 @@ jQuery(document).ready(function() {
 			} else {}
 			return false;
 		} else {
+            redux_change(jQuery(this).closest('label').find('input[type="radio"]'));
 			jQuery('label[for="' + id + '"]').addClass('redux-image-select-selected');
 		}
 	});
 
 	// Used to display a full image preview of a tile/pattern
-	var xOffset = 10; // these 2 variable determine the popup's distance from the cursor
+	jQuery('.tiles').tipsy({
+		gravity: jQuery.fn.tipsy.autoWE,
+		fade: true,
+		html: true,
+		title : function(){
+			return "<img src='" + jQuery(this).attr('rel') + "' style='max-width:150px;' alt='' />";
+		},
+		opacity: 1,
+	});
+	/*var xOffset = 10; // these 2 variable determine the popup's distance from the cursor
 	var yOffset = 30;
-	
 	jQuery(".tiles").hover(function(e) {
 		jQuery("body").append("<div id='tilesFullView'><img src='" + jQuery(this).attr('rel') + "' alt='' /></div>");
 		jQuery("#tilesFullView").css("top", (e.pageY - xOffset) + "px").css("left", (e.pageX + yOffset) + "px").fadeIn("fast");
@@ -39,8 +48,7 @@ jQuery(document).ready(function() {
 	
 	jQuery(".tiles").mousemove(function(e) {
 		jQuery("#tilesFullView").css("top", (e.pageY - xOffset) + "px").css("left", (e.pageX + yOffset) + "px");
-	});
+	});*/
 
 
 });
-

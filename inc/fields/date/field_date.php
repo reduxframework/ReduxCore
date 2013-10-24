@@ -61,13 +61,9 @@ if( !class_exists( 'ReduxFramework_date' ) ) {
 	 	 * @return		void
 		 */
 		public function render() {
-			echo '<fieldset class="redux-date-container" id="' . $this->field['id'] . '">';
 				
-				echo '<input type="text" id="'. $this->field['id'] .'-date" name="' . $this->args['opt_name'] . '[' . $this->field['id'] . ']" value="' . $this->value . '" class="redux-datepicker ' . $this->field['class'] . '" />';
+			echo '<input data-id="'.$this->field['id'].'" type="text" id="'. $this->field['id'] .'-date" name="' . $this->args['opt_name'] . '[' . $this->field['id'] . ']" value="' . $this->value . '" class="redux-datepicker ' . $this->field['class'] . '" />';
 		
-				echo ( isset( $this->field['desc'] ) && !empty( $this->field['desc'] ) ) ? '<div class="description">' . $this->field['desc'] . '</div>' : '';
-			
-			echo "</fieldset>";
 		}
 	
 		/**
@@ -80,8 +76,6 @@ if( !class_exists( 'ReduxFramework_date' ) ) {
 		 * @return		void
 		 */
 		public function enqueue() {
-			wp_enqueue_style( 'jquery-ui-css' );
-		
 			wp_enqueue_script(
 				'redux-field-date-js', 
 				REDUX_URL . 'inc/fields/date/field_date.min.js',

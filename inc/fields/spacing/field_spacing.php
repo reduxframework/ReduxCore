@@ -30,12 +30,13 @@ class ReduxFramework_spacing extends ReduxFramework{
 	
 		// No errors please
 		$defaults = array(
-			'units' => '',
-			'mode' => '',
-			'top'	=> true,
-			'bottom'=> true,
-			'left'	=> true,
-			'right'	=> true,
+			'units' 			=> '',
+			'mode' 				=> '',
+			'top'				=> true,
+			'bottom'			=> true,
+			'left'				=> true,
+			'right'				=> true,
+			'units_extended'	=> false,
 			);
 		$this->field = wp_parse_args( $this->field, $defaults );
 
@@ -46,16 +47,20 @@ class ReduxFramework_spacing extends ReduxFramework{
 			'mode' => '',
 			'bottom'=>'',
 			'left'=>'',
+			'mode'=>'padding',
 			'units'=>'px',
 		);
 
 		$this->value = wp_parse_args( $this->value, $defaults );
 
-		if ( empty( $this->value['units'] ) || ( !in_array($this->value['units'], array( '%, in, cm, mm, em, ex, pt, pc, px' ) ) ) ) {
-			if ( empty( $this->field['units'] ) || ( !in_array($this->field['units'], array( '%, in, cm, mm, em, ex, pt, pc, px' ) ) ) ) {
-				$this->field['units'] = "px";
-			}
+		if ( !empty( $this->field['units'] ) ) {
 			$this->value['units'] = $this->field['units'];
+		}
+
+		if (  !in_array($this->value['units'], array( '%', 'in', 'cm', 'mm', 'em', 'ex', 'pt', 'pc', 'px' ) ) ) {
+			if ( !empty( $this->field['units'] ) && in_array($this->value['units'], array( '%', 'in', 'cm', 'mm', 'em', 'ex', 'pt', 'pc', 'px' ) ) ) {
+				$this->value['units'] = $this->field['units'];	
+			}
 		}
 
 		if ( $this->field['mode'] !== "margin" && $this->field['mode'] !== "padding" ) {
@@ -66,7 +71,6 @@ class ReduxFramework_spacing extends ReduxFramework{
 			$this->field['mode'] = $this->field['mode']."-";
 		}
 		
-	  	echo '<fieldset id="'.$this->field['id'].'" class="redux-spacing-container">';
 
 			/**
 			Top
@@ -122,15 +126,19 @@ class ReduxFramework_spacing extends ReduxFramework{
 				echo '<div class="select_wrapper spacing-units" original-title="'.__('Units','redux-framework').'">';
 				echo '<select data-placeholder="'.__('Units','redux-framework').'" class="redux-spacing redux-spacing-units select'.$this->field['class'].'" original-title="'.__('Units','redux-framework').'" name="'.$this->args['opt_name'].'['.$this->field['id'].'][units]" id="'. $this->field['id'].'_units">';
 				
-				$testUnits = array('px', 'em', '%');
-
+				if ( $this->field['units_extended'] ) {
+					$testUnits = array('px', 'em', '%', 'in', 'cm', 'mm', 'ex', 'pt', 'pc');	
+				} else {
+					$testUnits = array('px', 'em', '%');
+				}
+				
 				if ( in_array($this->field['units'], $testUnits) ) {
 					echo '<option value="'.$this->field['units'].'" selected="selected">'.$this->field['units'].'</option>';
 				} else {
+					foreach($testUnits as $aUnit) {
+						echo '<option value="'.$aUnit.'" '.selected($this->value['units'], $aUnit, false).'>'.$aUnit.'</option>';
+					}
 
-					echo '<option value="px" '.selected($this->value['units'], 'px', false).'>px</option>';
-				 	echo '<option value="em"'.selected($this->value['units'], 'em', false).'>em</option>';
-				 	echo '<option value="%"'.selected($this->value['units'], '%', false).'>%</option>';
 				}
 				echo '</select></div>';
 
@@ -138,7 +146,6 @@ class ReduxFramework_spacing extends ReduxFramework{
 
 
 
-	  	echo "</fieldset>";
 
 
 	}//function
@@ -172,5 +179,42 @@ class ReduxFramework_spacing extends ReduxFramework{
 			
 		
 	}//function
+
+    public function output() {
+        if ( !isset($this->field['output']) || empty( $this->field['output'] ) ) {
+            return;
+        }            
+
+    	if ( !empty( $this->field['mode'] ) && !in_array($this->field['mode'], array( 'padding', 'absolute', 'margin', '' ) ) ) {
+    		unset( $this->field['mode'] );
+    	}
+
+    	if ( !isset( $this->field['mode'] ) ) {
+    		$this->field['mode'] = "padding";
+    	}
+
+    	if ( $this->field['mode'] == "absolute" ) {
+    		unset( $this->field['mode'] );
+    	}
+
+
+		//absolute, padding, margin
+        $keys = implode(",", $this->field['output']);
+        $style = '<style type="text/css" class="redux-'.$this->field['type'].'">';
+            $style .= $keys."{";
+            foreach($this->value as $key=>$value) {
+            	if ($key == "units") {
+            		continue;
+            	}
+            	if (empty($value)) {
+            		$value = 0;
+            	}
+                $style .= $key.':'.$value.';';
+            }
+            $style .= '}';
+        $style .= '</style>';
+        echo $style;
+        
+    }	
 	
 }//class
