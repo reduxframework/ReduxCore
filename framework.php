@@ -17,7 +17,7 @@
  * @package     ReduxFramework
  * @author      Daniel J Griffiths (Ghost1227)
  * @author      Dovy Paukstys (dovy)
- * @version     3.0.1
+ * @version     3.0.3
  */
 
 // Exit if accessed directly
@@ -26,7 +26,7 @@ if( !defined( 'ABSPATH' ) ) exit;
 // Don't duplicate me!
 if( !class_exists( 'ReduxFramework' ) ) {
 
-	define('REDUX_VERSION', '3.0.1');
+	define('REDUX_VERSION', '3.0.3');
 
     // Windows-proof constants: replace backward by forward slashes
     // Thanks to: https://github.com/peterbouwmeester
@@ -166,7 +166,7 @@ if( !class_exists( 'ReduxFramework' ) ) {
             add_action( 'init', array( &$this, '_register_extensions' ), 2 );
 
             // Any dynamic CSS output, let's run
-            add_action( 'wp_enqueue_scripts', array( &$this, '_enqueue_output' ), 100 );
+            add_action( 'wp_head', array( &$this, '_enqueue_output' ), 100 );
 
             // Hook into the WP feeds for downloading exported settings
             add_action( 'do_feed_reduxopts-' . $this->args['opt_name'], array( &$this, '_download_options' ), 1, 1 );
@@ -1055,7 +1055,7 @@ if( !class_exists( 'ReduxFramework' ) ) {
                     foreach( $section['fields'] as $fieldk => $field ) {
                     	
                     	$th = "";
-                        if( isset( $field['title'] ) && isset( $field['type'] ) && $field['type'] !== "info" ) {
+                        if( isset( $field['title'] ) && isset( $field['type'] ) && $field['type'] !== "info" && $field['type'] !== "group" ) {
 			    			$default_mark = ( !empty($field['default']) && isset($this->options[$field['id']]) && $this->options[$field['id']] == $field['default'] && !empty( $this->args['default_mark'] ) && isset( $field['default'] ) ) ? $this->args['default_mark'] : '';
                             if (!empty($field['title'])) {
                                 $th = $field['title'] . $default_mark;
@@ -1078,7 +1078,7 @@ if( !class_exists( 'ReduxFramework' ) ) {
 							$runUpdate = true;
 						}						
 
-						if ( $this->args['default_show'] === true && isset( $field['default'] ) && isset($this->options[$field['id']]) && $this->options[$field['id']] != $field['default'] && $field['type'] !== "info" ) {
+						if ( $this->args['default_show'] === true && isset( $field['default'] ) && isset($this->options[$field['id']]) && $this->options[$field['id']] != $field['default'] && $field['type'] !== "info" && $field['type'] !== "group" ) {
 							$default_output = "";
 						    if (!is_array($field['default'])) {
 								if ( !empty( $field['options'][$field['default']] ) ) {
@@ -1792,7 +1792,7 @@ if( !class_exists( 'ReduxFramework' ) ) {
 	                    	$field['description'] = $field['desc'];
 	                    }
                     
-                    echo ( isset( $field['description'] ) && $field['type'] != "info" && !empty( $field['description'] ) ) ? '<div class="description field-desc">' . $field['description'] . '</div>' : '';
+                    echo ( isset( $field['description'] ) && $field['type'] != "info" && $field['type'] != "group" && !empty( $field['description'] ) ) ? '<div class="description field-desc">' . $field['description'] . '</div>' : '';
 
                     echo '</fieldset>';
 
