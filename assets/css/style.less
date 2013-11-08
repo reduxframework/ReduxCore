@@ -351,13 +351,13 @@ border: 1px solid #e5e5e5;
 }
 .redux-group-tab .form-table tr th,
 .redux-group-tab .form-table tr td{
-	p2adding:20px 20px 40px 20px;
 	color:#333333;
 }
 .redux-group-tab .form-table tr th{
 	font-weight:bold;
 	font-size:1.1em;
 	width:30%;
+	padding:20px 5px 20px 0px;
 }
 .redux-group-tab .form-table tr th span:first-child{
 	font-weight: normal;
@@ -527,18 +527,18 @@ border: 1px solid #e5e5e5;
 .mp6 #redux-container #info_bar a {
 	margin-top: 2px;
 }
-#redux-container #info_bar {
-	background: #f3f3f3;
-	border:solid #d8d8d8;
-	border-bottom:1px solid #D8D8D8;
-	border-width:0px 1px 1px 1px;
-	padding: 6px 10px 6px 6px;
-	text-align: right;
-	-moz-box-shadow: inset 0 1px 0 #fcfcfc;
-	-webkit-box-shadow: inset 0 1px 0 #fcfcfc;
-	box-shadow: inset 0 1px 0 #fcfcfc;
-}
 
+#redux-container #info_bar {
+  background: #f3f3f3;
+  border-color: #d8d8d8;
+  border-style: solid;
+  border-width: 0px 1px 1px 1px;
+  padding: 6px 10px 6px 6px;
+  text-align: right;
+  -moz-box-shadow: inset 0 1px 0 #fcfcfc;
+  -webkit-box-shadow: inset 0 1px 0 #fcfcfc;
+  box-shadow: inset 0 1px 0 #fcfcfc;
+}
 
 #redux-container #expand_options{
 	cursor: pointer;
@@ -866,7 +866,7 @@ label.radio, label.multicheck {
 }
 
 #redux-main td {
-	padding: 8px 0;
+	padding: 20px 0;
 }
 
 #redux-main .mini, #redux-main input[type=text].mini {
@@ -940,7 +940,7 @@ img {
 	}
 	
 	table.form-table, .form-table > thead, .form-table > tbody, .form-table > tbody > tr > th, .form-table > tbody > tr > td, .form-table > tbody > tr {
-		display: block !important;
+		display: block;
 		width: 100% !important;
 		padding: 0px !important;
 	}
@@ -951,7 +951,7 @@ img {
 		padding: 10px !important;
 	}
 	.form-table > tbody > tr > th {
-		min-width: 35%
+		width: 35%
 	}
 }
 
@@ -983,4 +983,22 @@ img {
 
 #redux-main .field-desc {
 	clear: both;
+}
+
+#redux-main .data-full li{
+    width: 100%;
+}
+
+#redux-main .data-half li{
+    width: 50%;
+    float: left;
+}
+
+#redux-main .data-third li{
+    width: 33.3%;
+    float: left;
+}
+#redux-main .data-quarter li{
+    width: 25%;
+    float: left;
 }
