@@ -24,14 +24,14 @@
 if( !defined( 'ABSPATH' ) ) exit;
 
 // Don't duplicate me!
-if( !class_exists( 'ReduxFramework_color' ) ) {
+if( !class_exists( 'ReduxFramework_edd' ) ) {
 
     /**
      * Main ReduxFramework_color class
      *
      * @since       1.0.0
      */
-	class ReduxFramework_color extends ReduxFramework {
+	class ReduxFramework_edd extends ReduxFramework {
 	
 		/**
 		 * Field Constructor.
@@ -48,6 +48,8 @@ if( !class_exists( 'ReduxFramework_color' ) ) {
 
 			$this->field = $field;
 			$this->value = $value;
+
+			$this->parent = $parent;
 		
 		}
 	
@@ -62,14 +64,22 @@ if( !class_exists( 'ReduxFramework_color' ) ) {
 		 */
 		public function render() {
 
-			echo '<input data-id="'.$this->field['id'].'" name="' . $this->args['opt_name'] . '[' . $this->field['id'] . ']" id="' . $this->field['id'] . '-color" class="redux-color redux-color-init ' . $this->field['class'] . '"  type="text" value="' . $this->value . '"  data-default-color="' . $this->field['default'] . '" />';
+			$defaults = array(
+				'license' 	=> '',
+				'status' 	=> '',
+			);
 
-			if ( !isset( $this->field['transparent'] ) || $this->field['transparent'] !== false ) {
-				$tChecked = "";
-				if ( $this->value == "transparent" ) {
-					$tChecked = ' checked="checked"';
+			$this->value = wp_parse_args( $this->value, $defaults );
+
+			echo '<input data-id="'.$this->field['id'].'" name="' . $this->args['opt_name'] . '[' . $this->field['id'] . '][license]"  id="' . $this->field['id'] . '-license" class="redux-edd ' . $this->field['class'] . '"  type="text" value="' . $this->value['license'] . '" " />'; 
+			echo '<input type="hidden" data-id="'.$this->field['id'].'" name="' . $this->args['opt_name'] . '[' . $this->field['id'] . '][status]" id="' . $this->field['id'] . '-status" class="redux-edd ' . $this->field['class'] . '" type="text" value="' . $this->value['status'] . '" " />'; 
+			echo '&nbsp; <a href="#" class="button button-primary redux-EDDAction" data-edd_action="check_license">Verify License</a>';
+			echo '&nbsp; <a href="#" class="button button-primary redux-EDDAction" data-edd_action="activate_license">Activate License</a>';
+			echo '&nbsp; <a href="#" class="button redux-EDDAction" data-edd_action="deactivate_license">Deactivate License</a>';
+			if (isset($this->parent->args['edd'])) {
+				foreach( $this->parent->args['edd'] as $k => $v ) {
+					echo '<input type="hidden" data-id="'.$this->field['id'].'" id="' . $this->field['id'] . '-'.$k.'" class="redux-edd edd-'.$k.'"  type="text" value="' . $v . '" " />';
 				}
-				echo '<label for="' . $this->field['id'] . '-transparency" class="color-transparency-check"><input type="checkbox" class="checkbox color-transparency ' . $this->field['class'] . '" id="' . $this->field['id'] . '-transparency" data-id="'.$this->field['id'] . '-color" value="1"'.$tChecked.'> '.__('Transparent', 'redux-framework').'</label>';				
 			}
 
 		}
@@ -85,19 +95,17 @@ if( !class_exists( 'ReduxFramework_color' ) ) {
 		 */
 		public function enqueue() {
 
-			wp_enqueue_style( 'wp-color-picker' );
-
 			wp_enqueue_script(
-				'redux-field-color-js', 
-				ReduxFramework::$_url . 'inc/fields/color/field_color.min.js', 
-				array( 'jquery', 'wp-color-picker' ),
+				'redux-field-edd-js', 
+				ReduxFramework::$_url . 'extensions/edd/field_edd.js', 
+				array( 'jquery' ),
 				time(),
 				true
 			);
 
 			wp_enqueue_style(
-				'redux-field-color-css', 
-				ReduxFramework::$_url . 'inc/fields/color/field_color.css', 
+				'redux-field-edd-css', 
+				ReduxFramework::$_url . 'extensions/edd/field_edd.css', 
 				time(),
 				true
 			);

@@ -85,10 +85,14 @@
 
 	$.redux.check_dependencies = function(e,variable){
 		
-		var current 	= $(variable),
+		var current = $(variable),
 	        scope	= current.parents('.redux-group-tab:eq(0)');
  
         if(!scope.length) scope = the_body;
+
+	// Fix for Checkbox + Required issue
+        if($(variable).prop('type') == "checkbox")
+		$(variable).is(":checked") ? $(variable).val('1') : $(variable).val('0');
 
         var id		= current.parents('.redux-field:first').data('id'),
         dependent	= scope.find('tr[data-check-field="'+id+'"]'), 
@@ -341,19 +345,23 @@ function verify_fold(item) {
 
 function redux_change(variable) {
 	//We need this for switch and image select fields , jquery dosn't catch it on fly
-	if(variable.is('input[type=hidden]') || jQuery(variable).parents('fieldset:eq(0)').is('.redux-container-image_select') )
+	//if(variable.is('input[type=hidden]') || variable.hasClass('spinner-input') || variable.hasClass('slider-input') || variable.hasClass('upload') || jQuery(variable).parents('fieldset:eq(0)').is('.redux-container-image_select') ) {
+		
 		jQuery('body').trigger('check_dependencies' , variable);
+	//}
 		
 	if (variable.hasClass('compiler')) {
 		jQuery('#redux-compiler-hook').val(1);
 		//console.log('Compiler init');
 	}
+
+
 	if (variable.hasClass('foldParent')) {
 		//verify_fold(variable);
 	}
 	window.onbeforeunload = confirmOnPageExit;
-	if (jQuery(variable).hasClass('redux-field-error')) {
-		jQuery(variable).removeClass('redux-field-error');
+	if (jQuery(variable).parents('fieldset.redux-field:first').hasClass('redux-field-error')) {
+		jQuery(variable).parents('fieldset.redux-field:first').removeClass('redux-field-error');
 		jQuery(variable).parent().find('.redux-th-error').slideUp();
 		var parentID = jQuery(variable).closest('.redux-group-tab').attr('id');
 		var hideError = true;
@@ -395,6 +403,10 @@ jQuery(document).ready(function($) {
 	jQuery('.redux-group-tab-link-a').click(function() {
 		relid = jQuery(this).data('rel'); // The group ID of interest
 		// Set the proper page cookie
+		$.cookie('redux_current_tab', relid, {
+       		expires: 7,
+       		path: '/'
+       	});
 
 		$('#toplevel_page_'+redux_opts.slug+' .wp-submenu a.current').removeClass('current');
 		$('#toplevel_page_'+redux_opts.slug+' .wp-submenu li.current').removeClass('current');
@@ -498,7 +510,7 @@ jQuery(document).ready(function($) {
 	if (jQuery('#redux-imported').is(':visible')) {
 		jQuery('#redux-imported').slideDown();
 	}
-	jQuery('input, textarea, select').on('change', function() {
+	jQuery(document.body).on('change', 'input, textarea, select', function() {
 		if (!jQuery(this).hasClass('noUpdate')) {
 			redux_change(jQuery(this));
 		}
@@ -599,8 +611,9 @@ jQuery(document).ready(function($) {
 			jQuery("#" + sectionID + "_section_group_li_a").prepend('<span class="redux-menu-error">' + sectionArray.total + '</span>');
 			jQuery("#" + sectionID + "_section_group_li_a").addClass("hasError");
 			jQuery.each(sectionArray.errors, function(key, value) {
-				jQuery("#" + value.id).addClass("redux-field-error");
-				jQuery("#" + value.id).parents("td:first").append('<span class="redux-th-error">' + value.msg + '</span>');
+				console.log(value);
+				jQuery("#" + redux_opts.opt_name+'-'+value.id).addClass("redux-field-error");
+				jQuery("#" + redux_opts.opt_name+'-'+value.id).append('<div class="redux-th-error">' + value.msg + '</div>');
 			});
 		});
 	}
@@ -612,8 +625,8 @@ jQuery(document).ready(function($) {
 			jQuery("#" + sectionID + "_section_group_li_a").prepend('<span class="redux-menu-warning">' + sectionArray.total + '</span>');
 			jQuery("#" + sectionID + "_section_group_li_a").addClass("hasWarning");
 			jQuery.each(sectionArray.warnings, function(key, value) {
-				jQuery("#" + value.id).addClass("redux-field-warning");
-				jQuery("#" + value.id).parents("td:first").append('<span class="redux-th-warning">' + value.msg + '</span>');
+				jQuery("#" + redux_opts.opt_name+'-'+value.id).addClass("redux-field-warning");
+				jQuery("#" + redux_opts.opt_name+'-'+value.id).append('<div class="redux-th-warning">' + value.msg + '</div>');
 			});
 		});
 	}

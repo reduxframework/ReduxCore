@@ -10,7 +10,7 @@ class ReduxFramework_spacing extends ReduxFramework{
 	*/
 	function __construct($field = array(), $value ='', $parent){
 		
-		parent::__construct($parent->sections, $parent->args, $parent->extra_tabs);
+		parent::__construct($parent->sections, $parent->args);
 		$this->field = $field;
 		$this->value = $value;
 		//$this->render();
@@ -38,6 +38,7 @@ class ReduxFramework_spacing extends ReduxFramework{
 			'left'				=> true,
 			'right'				=> true,
 			'units_extended'	=> false,
+			'display_units' 	=> true				
 			);
 		$this->field = wp_parse_args( $this->field, $defaults );
 
@@ -56,7 +57,7 @@ class ReduxFramework_spacing extends ReduxFramework{
 			'right'=>'',
 			'bottom'=>'',
 			'left'=>'',
-			'units'=>'px',
+			'units'=>'px'		
 		);
 
 		$this->value = wp_parse_args( $this->value, $defaults );
@@ -111,7 +112,7 @@ class ReduxFramework_spacing extends ReduxFramework{
 			'right'=>'',
 			'bottom'=>'',
 			'left'=>'',
-			'units'=>'',
+			'units'=>''
 		);
 
 		$this->value = wp_parse_args( $this->value, $defaults );
@@ -119,7 +120,7 @@ class ReduxFramework_spacing extends ReduxFramework{
 		echo '<input type="hidden" class="field-units" value="'.$this->field['units'].'">';
 
 		if ( isset( $this->field['all'] ) && $this->field['all'] == true ) {
-			echo '<div class="field-spacing-input input-prepend"><span class="add-on"><i class="icon-fullscreen icon-large"></i></span><input type="text" class="redux-spacing-all redux-spacing-input mini'.$this->field['class'].'" placeholder="'.__('All','redux-framework').'" rel="'.$this->field['id'].'-all" value="'.$this->value['top'].'"></div>';
+			echo '<div class="field-spacing-input input-prepend"><span class="add-on"><i class="el-icon-fullscreen icon-large"></i></span><input type="text" class="redux-spacing-all redux-spacing-input mini'.$this->field['class'].'" placeholder="'.__('All','redux-framework').'" rel="'.$this->field['id'].'-all" value="'.$this->value['top'].'"></div>';
 		}
 
 		echo '<input type="hidden" class="redux-spacing-value" id="'.$this->field['id'].'-top" name="'.$this->args['opt_name'].'['.$this->field['id'].']['.$this->field['mode'].'top]" value="'.$this->value['top'].(!empty($this->value['top']) ? $this->value['units'] : '').'">';
@@ -132,28 +133,28 @@ class ReduxFramework_spacing extends ReduxFramework{
 			Top
 			**/
 			if ($this->field['top'] === true):
-				echo '<div class="field-spacing-input input-prepend"><span class="add-on"><i class="icon-arrow-up icon-large"></i></span><input type="text" class="redux-spacing-top redux-spacing-input mini'.$this->field['class'].'" placeholder="'.__('Top','redux-framework').'" rel="'.$this->field['id'].'-top" value="'.$this->value['top'].'"></div>';
+				echo '<div class="field-spacing-input input-prepend"><span class="add-on"><i class="el-icon-arrow-up icon-large"></i></span><input type="text" class="redux-spacing-top redux-spacing-input mini'.$this->field['class'].'" placeholder="'.__('Top','redux-framework').'" rel="'.$this->field['id'].'-top" value="'.$this->value['top'].'"></div>';
 		  	endif;
 
 			/**
 			Right
 			**/
 			if ($this->field['right'] === true):
-				echo '<div class="field-spacing-input input-prepend"><span class="add-on"><i class="icon-arrow-right icon-large"></i></span><input type="text" class="redux-spacing-right redux-spacing-input mini'.$this->field['class'].'" placeholder="'.__('Right','redux-framework').'" rel="'.$this->field['id'].'-right" value="'.$this->value['right'].'"></div>';
+				echo '<div class="field-spacing-input input-prepend"><span class="add-on"><i class="el-icon-arrow-right icon-large"></i></span><input type="text" class="redux-spacing-right redux-spacing-input mini'.$this->field['class'].'" placeholder="'.__('Right','redux-framework').'" rel="'.$this->field['id'].'-right" value="'.$this->value['right'].'"></div>';
 		  	endif;
 
 			/**
 			Bottom
 			**/
 			if ($this->field['bottom'] === true):
-				echo '<div class="field-spacing-input input-prepend"><span class="add-on"><i class="icon-arrow-down icon-large"></i></span><input type="text" class="redux-spacing-bottom redux-spacing-input mini'.$this->field['class'].'" placeholder="'.__('Bottom','redux-framework').'" rel="'.$this->field['id'].'-bottom" value="'.$this->value['bottom'].'"></div>';
+				echo '<div class="field-spacing-input input-prepend"><span class="add-on"><i class="el-icon-arrow-down icon-large"></i></span><input type="text" class="redux-spacing-bottom redux-spacing-input mini'.$this->field['class'].'" placeholder="'.__('Bottom','redux-framework').'" rel="'.$this->field['id'].'-bottom" value="'.$this->value['bottom'].'"></div>';
 		  	endif;
 
 			/**
 			Left
 			**/
 			if ($this->field['left'] === true):
-				echo '<div class="field-spacing-input input-prepend"><span class="add-on"><i class="icon-arrow-left icon-large"></i></span><input type="text" class="redux-spacing-left redux-spacing-input mini'.$this->field['class'].'" placeholder="'.__('Left','redux-framework').'" rel="'.$this->field['id'].'-left" value="'.$this->value['left'].'"></div>';
+				echo '<div class="field-spacing-input input-prepend"><span class="add-on"><i class="el-icon-arrow-left icon-large"></i></span><input type="text" class="redux-spacing-left redux-spacing-input mini'.$this->field['class'].'" placeholder="'.__('Left','redux-framework').'" rel="'.$this->field['id'].'-left" value="'.$this->value['left'].'"></div>';
 		  	endif;		
 
 		endif;
@@ -162,16 +163,20 @@ class ReduxFramework_spacing extends ReduxFramework{
 			Units
 			**/
 
-			if ( $this->field['units'] !== false && $this->field['units'] === "" && !isset( $absolute ) ):
+			if ( $this->field['units'] !== false && !isset( $absolute ) && $this->field['display_units'] == true ):
 
 				echo '<div class="select_wrapper spacing-units" original-title="'.__('Units','redux-framework').'">';
 				echo '<select data-placeholder="'.__('Units','redux-framework').'" class="redux-spacing redux-spacing-units select'.$this->field['class'].'" original-title="'.__('Units','redux-framework').'" name="'.$this->args['opt_name'].'['.$this->field['id'].'][units]" id="'. $this->field['id'].'_units">';
-				
+
 				if ( $this->field['units_extended'] ) {
 					$testUnits = array('px', 'em', '%', 'in', 'cm', 'mm', 'ex', 'pt', 'pc');	
 				} else {
 					$testUnits = array('px', 'em', '%');
 				}
+				if ( $this->field['units'] != "" ) {
+					$testUnits = array( $this->field['units'] );
+				}
+
 				echo '<option></option>';
 				
 				if ( in_array($this->field['units'], $testUnits) ) {

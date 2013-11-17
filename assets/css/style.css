@@ -31,7 +31,7 @@ a{outline:0 !important}
 #redux-sidebar #redux-group-menu{margin-top:0}
 #redux-sidebar #redux-group-menu li{margin:0}
 #redux-sidebar #redux-group-menu li.divide{padding:0;border-width:1px 0 1px 0;border-style:solid;border-bottom-color:#e7e7e7;border-top-color:#f9f9f9}
-#redux-sidebar #redux-group-menu li a{display:block;padding:12px 8px;background:#eee;border-width:1px 0 1px 0;border-style:solid;border-bottom-color:#e7e7e7;border-top-color:#f9f9f9;opacity:.7;color:#555;font-weight:bold;text-decoration:none;-webkit-transition:none;transition:none}
+#redux-sidebar #redux-group-menu li a{display:block;padding:12px 4px 12px 14px;background:#eee;border-width:1px 0 1px 0;border-style:solid;border-bottom-color:#e7e7e7;border-top-color:#f9f9f9;opacity:.7;color:#555;font-weight:bold;text-decoration:none;-webkit-transition:none;transition:none}
 #redux-sidebar #redux-group-menu li a.custom-tab{background:#f6f6f6}
 #redux-sidebar #redux-group-menu li a img{width:16px;height:16px;position:absolute;left:15px}
 #redux-sidebar #redux-group-menu li.active a:hover{color:#269ad6}
@@ -50,7 +50,7 @@ a{outline:0 !important}
 .redux-group-tab .form-table tr td .redux-th-warning{font-size:1em;color:#c09853;font-weight:normal;display:block}
 .redux-group-tab .form-table tr td .redux-field-warning{border-color:#c09853}
 .redux-group-tab .form-table tr td .redux-th-error{font-size:1em;color:#b94a48;font-weight:normal;display:block}
-#redux-main .redux-group-tab .form-table tr td input.redux-field-error{border-color:#b94a48}
+#redux-main .redux-field-error input,#redux-main .redux-field-error textarea,#redux-main .redux-field-error select{border-color:#b94a48}
 .redux-group-tab .form-table tr td table.mceLayout,.redux-group-tab .form-table tr td table.mceLayout tr,.redux-group-tab .form-table tr td table.mceLayout tr td{padding:0;border-width:0}
 .redux-group-tab .redux-theme-data{padding:20px 0;border-top:1px solid #e7e7e7}
 .redux-group-tab .redux-theme-data.theme-uri,.redux-group-tab .redux-theme-data.theme-author,.redux-group-tab .redux-theme-data.theme-version{padding:0;border-width:0}
@@ -163,3 +163,4 @@ img{max-width:100%;max-height:100%}
 #redux-main .data-half li{width:50%;float:left}
 #redux-main .data-third li{width:33.3%;float:left}
 #redux-main .data-quarter li{width:25%;float:left}
+#redux-main .ui-helper-hidden-accessible{top:inherit}

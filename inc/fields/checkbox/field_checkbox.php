@@ -44,7 +44,7 @@ if( !class_exists( 'ReduxFramework_checkbox' ) ) {
          */
         public function __construct( $field = array(), $value ='', $parent ) {
         
-            parent::__construct( $parent->sections, $parent->args, $parent->extra_tabs );
+            parent::__construct( $parent->sections, $parent->args );
         
             $this->field = $field;
             $this->value = $value;
@@ -98,9 +98,11 @@ if( !class_exists( 'ReduxFramework_checkbox' ) ) {
 
 	            } else {
 
-	                echo ( $this->field['desc'] != '' ) ? ' <label for="' . strtr($this->args['opt_name'] . '[' . $this->field['id'] . ']', array('[' => '_', ']' => '')) . '">' : '';
-	        
-	                echo '<input type="checkbox" id="' . strtr($this->args['opt_name'] . '[' . $this->field['id'] . ']', array('[' => '_', ']' => '')) . '" name="' . $this->args['opt_name'] . '[' . $this->field['id'] . ']" value="1" class="checkbox ' . $this->field['class'] . '" ' . checked( $this->value, '1', false ) . '/>';
+	                echo ( ! empty( $this->field['desc'] ) ) ? ' <label for="' . strtr($this->args['opt_name'] . '[' . $this->field['id'] . ']', array('[' => '_', ']' => '')) . '">' : '';
+	                
+	                // Got the "Checked" status as "0" or "1" then insert it as the "value" option
+	        	$ch_value = checked( $this->value, '1', false )== "" ? "0" : "1";
+	                echo '<input type="checkbox" id="' . strtr($this->args['opt_name'] . '[' . $this->field['id'] . ']', array('[' => '_', ']' => '')) . '" name="' . $this->args['opt_name'] . '[' . $this->field['id'] . ']" value="' . $ch_value . '" class="checkbox ' . $this->field['class'] . '" ' . checked( $this->value, '1', false ) . '/>';
 	        
 	            }
 
